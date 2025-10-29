@@ -17,7 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Farmacorp.PosExpress.Application\Farmacorp.PosExpress.Application.csproj" />
     <ProjectReference Include="..\Farmacorp.PosExpress.Infrastructure\Farmacorp.PosExpress.Infrastructure.csproj" />
   </ItemGroup>
+
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>
