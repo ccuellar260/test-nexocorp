@@ -10,15 +10,18 @@ namespace Farmacorp.PosExpress.Domain.Entities
         public DateTime FechaRegistro { get; set; }
         public int Stock { get; set; }
 
-        // relacion
+        // relacion 
         public ExpProducto ExpProducto { get; set; } = null!;
+
+        //relacion HasMany
+        public ICollection<CodigoBarra> CodigosBarras { get; set; } = new List<CodigoBarra>();
 
         // Reglas de negocio
         public decimal CalcularMargenPrecio()
         {
             return Costo * 1.5m;
         }
+
         
-     
     }
 }

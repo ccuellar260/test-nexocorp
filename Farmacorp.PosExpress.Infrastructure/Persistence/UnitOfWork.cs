@@ -1,4 +1,5 @@
 ﻿using Farmacorp.PosExpress.Domain.Interfaces;
+using Farmacorp.PosExpress.Domain.Repositories;
 using Farmacorp.PosExpress.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
@@ -19,6 +20,7 @@ namespace Farmacorp.PosExpress.Infrastructure.Data
         private IErpProductoRepository? _erpProductoRepository;
         private IExpProductoRepository? _expProductoRepository;
 
+        private ICodigoBarraRepository? _codigoBarraRepository;
 
         public UnitOfWork(AppDbContext context)
         {
@@ -42,6 +44,15 @@ namespace Farmacorp.PosExpress.Infrastructure.Data
             {
                 _expProductoRepository ??= new ExpProductoRepository(_context);
                 return _expProductoRepository;
+            }
+        }
+
+        public ICodigoBarraRepository CodigoBarraRepository
+        {
+            get
+            {
+                _codigoBarraRepository ??= new CodigoBarraRepository(_context);
+                return _codigoBarraRepository;
             }
         }
 

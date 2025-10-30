@@ -18,6 +18,7 @@ namespace Farmacorp.PosExpress.Infrastructure.Data
 
         public DbSet<ErpProducto> ErpProductos { get; set; }
         public DbSet<ExpProducto> ExpProductos { get; set; }
+        public DbSet<CodigoBarra> CodigosBarras { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,6 +28,7 @@ namespace Farmacorp.PosExpress.Infrastructure.Data
             // configuraciones fluent api
             modelBuilder.ApplyConfiguration(new ErpProductoConfiguration());
             modelBuilder.ApplyConfiguration(new ExpProductoConfiguration());
+            modelBuilder.ApplyConfiguration(new CodigoBarraConfiguration());
         }
     }
 }
