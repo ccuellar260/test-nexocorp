@@ -1,6 +1,8 @@
 ﻿
-
+using Farmacorp.PosExpress.Application.Services;
+using Farmacorp.PosExpress.Domain.Interfaces;
 using Farmacorp.PosExpress.Infrastructure.Data;
+using Farmacorp.PosExpress.Presentation.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +31,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+//registrar servicios 
+builder.Services.AddScoped<ProductoService>();
+
+// Registrar la aplicación principal
+builder.Services.AddScoped<MainController>();
+
 
 var app = builder.Build();
 
@@ -43,11 +53,13 @@ using (var scope = app.Services.CreateScope())
         await db.Database.CanConnectAsync();
         Console.WriteLine("Base de datos conectada correctamente.");
 
-      
+        // Ejecutar la aplicación
+        var aplicacion = scope.ServiceProvider.GetRequiredService<MainController>();
+        await aplicacion.Run();
     }
     catch (Exception ex)
     {
-         Console.WriteLine($"Error al conectar la db: {ex.Message}");
-        Console.WriteLine($"StackTrace: {ex.StackTrace}");
+        Console.WriteLine($"Error: {ex.Message}");
+        Console.WriteLine($"Stack Trace: {ex.StackTrace}");
     }
 }
