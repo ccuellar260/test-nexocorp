@@ -61,6 +61,14 @@ public class ExpProductoConfiguration : IEntityTypeConfiguration<ExpProducto>
                .HasForeignKey(cb => cb.IdProducto)
                .OnDelete(DeleteBehavior.Cascade);
 
+        //relacion con ventas, has many
+        builder.HasMany(exp => exp.Ventas)
+               .WithOne(venta => venta.ExpProducto)
+               .HasForeignKey(v => v.IdProducto)
+               .OnDelete(DeleteBehavior.Cascade);
+
+
+
         //relaciones, belogn to pertenece a un tipo de producto
         builder.HasOne(exp => exp.TipoProducto)
                .WithMany(tipo => tipo.ExpProductos)

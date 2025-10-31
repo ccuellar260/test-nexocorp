@@ -23,6 +23,7 @@ namespace Farmacorp.PosExpress.Infrastructure.Persistence
         public DbSet<TipoProducto> TiposProductos { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<ProductoCategoria> ProductosCategorias { get; set; }
+        public DbSet<Venta> Ventas { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,6 +37,7 @@ namespace Farmacorp.PosExpress.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new TipoProductoConfiguration());
             modelBuilder.ApplyConfiguration(new CategoriaConfiguration());
             modelBuilder.ApplyConfiguration(new ProductoCategoriaConfiguration());
+            modelBuilder.ApplyConfiguration(new VentaConfiguration());
         }
     }
 }

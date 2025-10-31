@@ -16,7 +16,6 @@ namespace Farmacorp.PosExpress.Domain.Entities
         //relacioene uno a uno
         public ErpProducto ErpProducto { get; set; } = null!;
 
-
         //relacion pertences a uno 
         public int IdTipoProducto { get; set; }
         public TipoProducto TipoProducto { get; set; } = null!;
@@ -25,6 +24,8 @@ namespace Farmacorp.PosExpress.Domain.Entities
         //relaciones tiene muchos 
         public ICollection<ProductoCategoria> ProductosCategorias { get; set; } = new List<ProductoCategoria>();
         public ICollection<CodigoBarra> CodigosBarras { get; set; } = new List<CodigoBarra>();
+        public ICollection<Venta> Ventas { get; set; } = new List<Venta>();
+
 
     }
 }
