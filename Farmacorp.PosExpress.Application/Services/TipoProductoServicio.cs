@@ -1,5 +1,6 @@
 using System;
 using Farmacorp.PosExpress.Application.DTOs;
+using Farmacorp.PosExpress.Domain.Entities;
 using Farmacorp.PosExpress.Domain.Interfaces;
 
 namespace Farmacorp.PosExpress.Application.Services;

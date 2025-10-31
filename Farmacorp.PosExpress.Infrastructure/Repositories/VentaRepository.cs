@@ -2,27 +2,26 @@ using System;
 using Farmacorp.PosExpress.Domain.Entities;
 using Farmacorp.PosExpress.Domain.Interfaces;
 using Farmacorp.PosExpress.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Farmacorp.PosExpress.Infrastructure.Repositories;
 
-public class TipoProductoRepository : ITipoProductoRepository
+public class VentaRepository : IVentaRepository
 {
-
     private readonly AppDbContext _context;
 
-
-    public TipoProductoRepository(AppDbContext context)
+    public VentaRepository(AppDbContext context)
     {
         _context = context;
     }
 
-    public IEnumerable<TipoProducto> GetAll()
+    public async Task<IEnumerable<Venta>> GetAllAsync()
     {
-        return _context.TiposProductos.ToList();
+        return await _context.Ventas.ToListAsync();
     }
 
-    public void Store(TipoProducto tipoProducto)
+    public async Task StoreAsync(Venta venta)
     {
-        _context.TiposProductos.Add(tipoProducto);
+        await _context.Ventas.AddAsync(venta);
     }
 }

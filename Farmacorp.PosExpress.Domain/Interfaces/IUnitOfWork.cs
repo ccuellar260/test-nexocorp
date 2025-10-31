@@ -15,6 +15,7 @@ namespace Farmacorp.PosExpress.Domain.Interfaces
         ITipoProductoRepository TipoProductoRepository { get; }
         IProductoCategoriaRepository ProductoCategoriaRepository { get; }
         ICategoriaRepository CategoriaRepository { get; }
+        IVentaRepository VentaRepository { get; }
 
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();

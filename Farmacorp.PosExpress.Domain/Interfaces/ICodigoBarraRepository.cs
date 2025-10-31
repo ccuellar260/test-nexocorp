@@ -1,15 +1,14 @@
 using Farmacorp.PosExpress.Domain.Entities;
 
-namespace Farmacorp.PosExpress.Domain.Interfaces
+namespace Farmacorp.PosExpress.Domain.Interfaces;
+
+public interface ICodigoBarraRepository
 {
-    public interface ICodigoBarraRepository
-    {
 
-        void Store(CodigoBarra codigoBarra);
+    void Store(CodigoBarra codigoBarra);
 
-        bool VerificarCodigoUnico(string codigo);
-    
+    bool VerificarCodigoUnico(string codigo);
 
 
-    }
+
 }

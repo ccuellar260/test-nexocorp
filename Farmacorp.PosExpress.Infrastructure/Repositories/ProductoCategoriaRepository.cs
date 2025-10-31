@@ -1,4 +1,5 @@
 using System;
+using Farmacorp.PosExpress.Domain.Entities;
 using Farmacorp.PosExpress.Domain.Interfaces;
 using Farmacorp.PosExpress.Infrastructure.Persistence;
 

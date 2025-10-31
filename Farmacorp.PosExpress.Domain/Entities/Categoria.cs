@@ -1,5 +1,5 @@
 
-namespace Farmacorp.PosExpress.Domain.Interfaces;
+namespace Farmacorp.PosExpress.Domain.Entities;
 
 public class Categoria
 {

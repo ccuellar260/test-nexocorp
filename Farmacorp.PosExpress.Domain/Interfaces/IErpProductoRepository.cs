@@ -1,24 +1,18 @@
 ﻿using Farmacorp.PosExpress.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Farmacorp.PosExpress.Domain.Interfaces 
-{ 
 
-    public interface IErpProductoRepository
-    {
+namespace Farmacorp.PosExpress.Domain.Interfaces;
 
-        IEnumerable<ErpProducto> GetAll();
+public interface IErpProductoRepository
+{
 
-        void Store(ErpProducto producto);
+    IEnumerable<ErpProducto> GetAll();
 
-        bool VerificarCodigoUnico(string codigo);
+    void Store(ErpProducto producto);
 
-        string GenerarCodigoUnico(string nombre);
+    bool VerificarCodigoUnico(string codigo);
 
-        // bool Save();
-    }
+    string GenerarCodigoUnico(string nombre);
+
+    // bool Save();
 }

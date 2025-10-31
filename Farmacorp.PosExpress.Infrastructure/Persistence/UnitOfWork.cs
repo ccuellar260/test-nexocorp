@@ -22,6 +22,7 @@ namespace Farmacorp.PosExpress.Infrastructure.Persistence
         private ITipoProductoRepository? _tipoProductoRepository;
         private IProductoCategoriaRepository? _productoCategoriaRepository;
         private ICategoriaRepository? _categoriaRepository;
+        private IVentaRepository? _ventaRepository;
 
         public UnitOfWork(AppDbContext context)
         {
@@ -81,6 +82,15 @@ namespace Farmacorp.PosExpress.Infrastructure.Persistence
             {
                 _categoriaRepository ??= new CategoriaRepository(_context);
                 return _categoriaRepository;
+            }
+        }
+
+        public IVentaRepository VentaRepository
+        {
+            get
+            {
+                _ventaRepository ??= new VentaRepository(_context);
+                return _ventaRepository;
             }
         }
 
