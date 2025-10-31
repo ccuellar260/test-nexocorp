@@ -10,10 +10,14 @@ namespace Farmacorp.PosExpress.Presentation.Controllers
     public class MainController
     {
         private readonly ProductoService _productoService;
+        private readonly CategoriaService _categoriaServic;
+        private readonly TipoProductoService _tipoProductoService;
 
-        public MainController(ProductoService productoService)
+        public MainController(ProductoService productoService, CategoriaService categoriaService, TipoProductoService tipoProductoService)
         {
             _productoService = productoService;
+            _categoriaServic = categoriaService;
+            _tipoProductoService = tipoProductoService;
         }
 
         public async Task Run()
@@ -28,15 +32,27 @@ namespace Farmacorp.PosExpress.Presentation.Controllers
                 {
                     case "1":
                         // Gestion de Productos
-                        var productoController = new ProductoController(_productoService);
+                        var productoController = new ProductoController(_productoService, _tipoProductoService);
                         await productoController.MenuProductos();
                         break;
                     case "2":
-                        // 
-                        Console.WriteLine("desarrollo...");
-                        Console.ReadKey();
+                        // Gestion de Tipos de Productos
+                        var tipoProductoController = new TipoProductoController(_tipoProductoService);
+                        await tipoProductoController.MenuTipoProductos();
                         break;
                     case "3":
+                        // Gestion de Categorias
+                        var categoriaController = new CategoriaController(_categoriaServic);
+                        await categoriaController.MenuCategorias();
+                        break;
+                    case "4":
+                        // Gestion de Ventas
+                        Console.WriteLine("Gestion de Ventas - En desarrollo...");
+                        Console.ReadKey();
+                        // var ventaController = new VentaController(_ventaService);
+                        // await ventaController.MenuVentas();
+                        break;
+                    case "5":
                         Console.WriteLine("Hasta luego");
                         return;
                     default:
@@ -53,8 +69,10 @@ namespace Farmacorp.PosExpress.Presentation.Controllers
             Console.Clear();
             Console.WriteLine("==== SISTEMA DE INVENTARIO ====");
             Console.WriteLine("1. Gestion de Productos");
-            Console.WriteLine("2. Otras Gestiones");
-            Console.WriteLine("3. Salir");
+            Console.WriteLine("2. Gestion de Tipos de Productos");
+            Console.WriteLine("3. Gestion de Categorias");
+            Console.WriteLine("4. Gestion de Ventas");
+            Console.WriteLine("5. Salir");
             Console.Write("Seleccione una opción: ");
         }
     }

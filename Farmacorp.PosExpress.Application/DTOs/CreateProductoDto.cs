@@ -12,6 +12,7 @@ namespace Farmacorp.PosExpress.Application.DTOs
         public string Observaciones { get; set; } = "";
         public decimal Costo { get; set; }
         public int Stock { get; set; }
+        public int TipoProductoId { get; set; }
 
     }
 }

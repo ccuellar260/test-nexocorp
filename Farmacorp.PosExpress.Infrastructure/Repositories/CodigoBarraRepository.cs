@@ -1,9 +1,9 @@
 
 using Farmacorp.PosExpress.Domain.Entities;
 using Farmacorp.PosExpress.Domain.Interfaces;
-using Farmacorp.PosExpress.Infrastructure.Data;
+using Farmacorp.PosExpress.Infrastructure.Persistence;
 
-namespace Farmacorp.PosExpress.Domain.Repositories;
+namespace Farmacorp.PosExpress.Infrastructure.Repositories;
 
 public class CodigoBarraRepository : ICodigoBarraRepository
 {

@@ -9,10 +9,12 @@ namespace Farmacorp.PosExpress.Presentation.Controllers;
 public class ProductoController
 {
     private readonly ProductoService _productoService;
+    private readonly TipoProductoService _tipoProductoService;
 
-    public ProductoController(ProductoService productoService)
+    public ProductoController(ProductoService productoService, TipoProductoService tipoProductoService)
     {
         _productoService = productoService;
+        _tipoProductoService = tipoProductoService;
     }
 
     public async Task MenuProductos()
@@ -99,10 +101,10 @@ public class ProductoController
         Console.Write("Observaciones: ");
         var observaciones = Console.ReadLine() ?? "";
 
-        Console.Write("Costo: $");
+        Console.Write("Costo: ");
         if (!decimal.TryParse(Console.ReadLine(), out decimal costo))
         {
-            Console.WriteLine("Error: El costo debe ser un número decimal válido.");
+            Console.WriteLine("error: El costo debe ser un numero decimal valido.");
             Console.ReadKey();
             return;
         }
@@ -115,12 +117,41 @@ public class ProductoController
             return;
         }
 
+
+        // Mostrar lista de tipos de producto
+        Console.WriteLine("Seleccione el tipo de producto:");
+
+        var tiposProductos = _tipoProductoService.Index().ToList();
+        var contador = 1;
+
+        foreach (var tipo in tiposProductos)
+        {
+            // Mostramos cada tipo con un número consecutivo
+            Console.WriteLine($"{contador}. {tipo.Descripcion}");
+            contador++; 
+        }
+
+        // Pedir selección al usuario
+        Console.Write("Seleccione una opcion: ");
+        if (!int.TryParse(Console.ReadLine(), out int tipoSeleccionado) ||
+            tipoSeleccionado < 1 ||
+            tipoSeleccionado > tiposProductos.Count)
+        {
+            Console.WriteLine("opcion invalida.");
+            Console.WriteLine("\nPresione cualquier tecla para ir al menu...");
+            Console.ReadKey();
+            return;
+        }
+
+        var tipoProducto = tiposProductos[tipoSeleccionado - 1];
+
         var dto = new CreateProductoDto
         {
             Nombre = nombre,
             Costo = costo,
             Stock = stock,
-            Observaciones = observaciones
+            Observaciones = observaciones,
+            TipoProductoId = tipoProducto.IdTipoProducto
         };
 
         var (success, errorMessage) = await _productoService.RegistrarProducto(dto);

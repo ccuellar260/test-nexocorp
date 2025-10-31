@@ -1,4 +1,6 @@
 ﻿
+using Farmacorp.PosExpress.Domain.Interfaces;
+
 namespace Farmacorp.PosExpress.Domain.Entities
 {
     public class ExpProducto
@@ -10,8 +12,19 @@ namespace Farmacorp.PosExpress.Domain.Entities
         public DateTime? FechaVencimiento { get; set; }
         public string? Observaciones { get; set; }
 
+
+        //relacioene uno a uno
         public ErpProducto ErpProducto { get; set; } = null!;
 
+
+        //relacion pertences a uno 
+        public int IdTipoProducto { get; set; }
+        public TipoProducto TipoProducto { get; set; } = null!;
+
+
+        //relaciones tiene muchos 
+        public ICollection<ProductoCategoria> ProductosCategorias { get; set; } = new List<ProductoCategoria>();
+        public ICollection<CodigoBarra> CodigosBarras { get; set; } = new List<CodigoBarra>();
 
     }
 }

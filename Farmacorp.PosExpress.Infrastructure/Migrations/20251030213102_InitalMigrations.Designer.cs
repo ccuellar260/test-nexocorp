@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Farmacorp.PosExpress.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251030151110_CodigoBarraMigrations")]
-    partial class CodigoBarraMigrations
+    [Migration("20251030213102_InitalMigrations")]
+    partial class InitalMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,9 @@ namespace Farmacorp.PosExpress.Infrastructure.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
+                    b.Property<int?>("ErpProductoIdProducto")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdProducto")
                         .HasColumnType("int");
 
@@ -47,6 +50,8 @@ namespace Farmacorp.PosExpress.Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("IdCodigoBarra");
+
+                    b.HasIndex("ErpProductoIdProducto");
 
                     b.HasIndex("IdProducto");
 
@@ -111,6 +116,9 @@ namespace Farmacorp.PosExpress.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("FechaVencimiento");
 
+                    b.Property<int>("IdTipoProducto")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -128,18 +136,98 @@ namespace Farmacorp.PosExpress.Infrastructure.Migrations
 
                     b.HasKey("IdProducto");
 
+                    b.HasIndex("IdTipoProducto");
+
                     b.ToTable("ExpProductos", (string)null);
+                });
+
+            modelBuilder.Entity("Farmacorp.PosExpress.Domain.Interfaces.Categoria", b =>
+                {
+                    b.Property<int>("IdCategoria")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCategoria"));
+
+                    b.Property<bool>("Activo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("IdCategoriaPadre")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdCategoria");
+
+                    b.HasIndex("IdCategoriaPadre");
+
+                    b.ToTable("Categorias", (string)null);
+                });
+
+            modelBuilder.Entity("Farmacorp.PosExpress.Domain.Interfaces.ProductoCategoria", b =>
+                {
+                    b.Property<int>("IdDetalle")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdDetalle"));
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<int>("IdCategoria")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdProducto")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdDetalle");
+
+                    b.HasIndex("IdCategoria");
+
+                    b.HasIndex("IdProducto");
+
+                    b.ToTable("ProductosCategorias", (string)null);
+                });
+
+            modelBuilder.Entity("Farmacorp.PosExpress.Domain.Interfaces.TipoProducto", b =>
+                {
+                    b.Property<int>("IdTipoProducto")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdTipoProducto"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("IdTipoProducto");
+
+                    b.ToTable("TiposProductos", (string)null);
                 });
 
             modelBuilder.Entity("Farmacorp.PosExpress.Domain.Entities.CodigoBarra", b =>
                 {
-                    b.HasOne("Farmacorp.PosExpress.Domain.Entities.ErpProducto", "ErpProducto")
+                    b.HasOne("Farmacorp.PosExpress.Domain.Entities.ErpProducto", null)
+                        .WithMany("CodigosBarras")
+                        .HasForeignKey("ErpProductoIdProducto");
+
+                    b.HasOne("Farmacorp.PosExpress.Domain.Entities.ExpProducto", "ExpProducto")
                         .WithMany("CodigosBarras")
                         .HasForeignKey("IdProducto")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ErpProducto");
+                    b.Navigation("ExpProducto");
                 });
 
             modelBuilder.Entity("Farmacorp.PosExpress.Domain.Entities.ErpProducto", b =>
@@ -153,6 +241,46 @@ namespace Farmacorp.PosExpress.Infrastructure.Migrations
                     b.Navigation("ExpProducto");
                 });
 
+            modelBuilder.Entity("Farmacorp.PosExpress.Domain.Entities.ExpProducto", b =>
+                {
+                    b.HasOne("Farmacorp.PosExpress.Domain.Interfaces.TipoProducto", "TipoProducto")
+                        .WithMany("ExpProductos")
+                        .HasForeignKey("IdTipoProducto")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("TipoProducto");
+                });
+
+            modelBuilder.Entity("Farmacorp.PosExpress.Domain.Interfaces.Categoria", b =>
+                {
+                    b.HasOne("Farmacorp.PosExpress.Domain.Interfaces.Categoria", "CategoriaPadre")
+                        .WithMany()
+                        .HasForeignKey("IdCategoriaPadre")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CategoriaPadre");
+                });
+
+            modelBuilder.Entity("Farmacorp.PosExpress.Domain.Interfaces.ProductoCategoria", b =>
+                {
+                    b.HasOne("Farmacorp.PosExpress.Domain.Interfaces.Categoria", "Categoria")
+                        .WithMany("ProductosCategorias")
+                        .HasForeignKey("IdCategoria")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Farmacorp.PosExpress.Domain.Entities.ExpProducto", "ExpProducto")
+                        .WithMany("ProductosCategorias")
+                        .HasForeignKey("IdProducto")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("ExpProducto");
+                });
+
             modelBuilder.Entity("Farmacorp.PosExpress.Domain.Entities.ErpProducto", b =>
                 {
                     b.Navigation("CodigosBarras");
@@ -160,8 +288,22 @@ namespace Farmacorp.PosExpress.Infrastructure.Migrations
 
             modelBuilder.Entity("Farmacorp.PosExpress.Domain.Entities.ExpProducto", b =>
                 {
+                    b.Navigation("CodigosBarras");
+
                     b.Navigation("ErpProducto")
                         .IsRequired();
+
+                    b.Navigation("ProductosCategorias");
+                });
+
+            modelBuilder.Entity("Farmacorp.PosExpress.Domain.Interfaces.Categoria", b =>
+                {
+                    b.Navigation("ProductosCategorias");
+                });
+
+            modelBuilder.Entity("Farmacorp.PosExpress.Domain.Interfaces.TipoProducto", b =>
+                {
+                    b.Navigation("ExpProductos");
                 });
 #pragma warning restore 612, 618
         }

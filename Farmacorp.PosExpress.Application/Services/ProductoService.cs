@@ -58,7 +58,8 @@ namespace Farmacorp.PosExpress.Application.Services
                 var expProducto = new ExpProducto
                 {
                     Nombre = dto.Nombre,
-                    Observaciones = dto.Observaciones
+                    Observaciones = dto.Observaciones,
+                    IdTipoProducto = dto.TipoProductoId
                 };
 
                 // Crear ErpProducto y establecer la relación

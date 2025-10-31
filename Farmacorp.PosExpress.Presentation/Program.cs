@@ -1,7 +1,7 @@
 ﻿
 using Farmacorp.PosExpress.Application.Services;
 using Farmacorp.PosExpress.Domain.Interfaces;
-using Farmacorp.PosExpress.Infrastructure.Data;
+using Farmacorp.PosExpress.Infrastructure.Persistence;
 using Farmacorp.PosExpress.Presentation.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +35,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //registrar servicios 
 builder.Services.AddScoped<ProductoService>();
+builder.Services.AddScoped<CategoriaService>();
+builder.Services.AddScoped<TipoProductoService>();
 
 // Registrar la aplicación principal
 builder.Services.AddScoped<MainController>();

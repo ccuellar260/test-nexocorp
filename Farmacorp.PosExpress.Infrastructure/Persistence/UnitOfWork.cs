@@ -1,5 +1,4 @@
 ﻿using Farmacorp.PosExpress.Domain.Interfaces;
-using Farmacorp.PosExpress.Domain.Repositories;
 using Farmacorp.PosExpress.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Farmacorp.PosExpress.Infrastructure.Data
+namespace Farmacorp.PosExpress.Infrastructure.Persistence
 {
 
     public class UnitOfWork : IUnitOfWork
@@ -19,8 +18,10 @@ namespace Farmacorp.PosExpress.Infrastructure.Data
         // Repositorios 
         private IErpProductoRepository? _erpProductoRepository;
         private IExpProductoRepository? _expProductoRepository;
-
         private ICodigoBarraRepository? _codigoBarraRepository;
+        private ITipoProductoRepository? _tipoProductoRepository;
+        private IProductoCategoriaRepository? _productoCategoriaRepository;
+        private ICategoriaRepository? _categoriaRepository;
 
         public UnitOfWork(AppDbContext context)
         {
@@ -53,6 +54,33 @@ namespace Farmacorp.PosExpress.Infrastructure.Data
             {
                 _codigoBarraRepository ??= new CodigoBarraRepository(_context);
                 return _codigoBarraRepository;
+            }
+        }
+
+        public ITipoProductoRepository TipoProductoRepository
+        {
+            get
+            {
+                _tipoProductoRepository ??= new TipoProductoRepository(_context);
+                return _tipoProductoRepository;
+            }
+        }
+
+        public IProductoCategoriaRepository ProductoCategoriaRepository
+        {
+            get
+            {
+                _productoCategoriaRepository ??= new ProductoCategoriaRepository(_context);
+                return _productoCategoriaRepository;
+            }
+        }
+
+        public ICategoriaRepository CategoriaRepository
+        {
+            get
+            {
+                _categoriaRepository ??= new CategoriaRepository(_context);
+                return _categoriaRepository;
             }
         }
 

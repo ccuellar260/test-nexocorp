@@ -6,10 +6,12 @@ namespace Farmacorp.PosExpress.Domain.Entities
         public string UniqueCodigo { get; set; } = string.Empty;
         public bool Activo { get; set; } = true;
 
-        // Relacion, BelongsTo, le pertenece a uno ErpProducto
+
+        // relacion, belongs to, le pertenece a uno ExpProducto
         public int IdProducto { get; set; }
-        public ErpProducto ErpProducto { get; set; } = null!;
-        
+        public ExpProducto ExpProducto { get; set; } = null!;
+
+
         //reglas de negocio
         public static string GenerarCodigo()
         {

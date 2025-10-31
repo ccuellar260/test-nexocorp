@@ -1,5 +1,5 @@
 ﻿using Farmacorp.PosExpress.Domain.Entities;
-using Farmacorp.PosExpress.Infrastructure.Data;
+using Farmacorp.PosExpress.Infrastructure.Persistence;
 using Farmacorp.PosExpress.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
