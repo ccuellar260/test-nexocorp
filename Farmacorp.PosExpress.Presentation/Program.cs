@@ -37,6 +37,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ProductoService>();
 builder.Services.AddScoped<CategoriaService>();
 builder.Services.AddScoped<TipoProductoService>();
+builder.Services.AddScoped<VentaService>();
 
 // Registrar la aplicación principal
 builder.Services.AddScoped<MainController>();

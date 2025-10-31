@@ -17,7 +17,9 @@ public class VentaRepository : IVentaRepository
 
     public async Task<IEnumerable<Venta>> GetAllAsync()
     {
-        return await _context.Ventas.ToListAsync();
+        return await _context.Ventas
+            .Include(v => v.ExpProducto)
+            .ToListAsync();
     }
 
     public async Task StoreAsync(Venta venta)

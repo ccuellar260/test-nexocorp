@@ -6,7 +6,7 @@ namespace Farmacorp.PosExpress.Domain.Interfaces;
 public interface IErpProductoRepository
 {
 
-    IEnumerable<ErpProducto> GetAll();
+IEnumerable<ErpProducto> GetAll();
 
     void Store(ErpProducto producto);
 
@@ -15,4 +15,7 @@ public interface IErpProductoRepository
     string GenerarCodigoUnico(string nombre);
 
     // bool Save();
+
+
+    Task<ErpProducto?> FirstByCodigoUniqueAsync(string codigoProducto);
 }

@@ -74,9 +74,13 @@ public class ErpProductoRepository : IErpProductoRepository
         return productosExistentes.Any(p => p.UniqueCodigo == codigo);
     }
 
-
-
-
+    public async Task<ErpProducto?> FirstByCodigoUniqueAsync(string codigoProducto)
+    {
+        return await _context.ErpProductos
+            .Include(p => p.ExpProducto)
+            .FirstOrDefaultAsync(p => p.UniqueCodigo == codigoProducto);
+    }
+       
 
     // public async Task<int> Save()
     // {

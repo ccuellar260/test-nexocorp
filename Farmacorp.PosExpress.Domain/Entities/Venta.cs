@@ -15,6 +15,6 @@ public class Venta
     public decimal Total { get; set; }
 
     //realaciones 
-    public int IdProducto { get; set; }
+public int IdProducto { get; set; }
     public ExpProducto ExpProducto { get; set; } = null!; 
 }

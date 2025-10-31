@@ -26,10 +26,19 @@ public class ExpProductoRepository : IExpProductoRepository
         _context.ExpProductos.Add(producto);
         // return Save();
     }
-    
+
+    Task<ExpProducto?> IExpProductoRepository.GetByIdAsync(int IdProducto)
+    {
+        return _context.ExpProductos
+            .Include(p => p.ErpProducto)
+            .FirstOrDefaultAsync(p => p.IdProducto == IdProducto);
+    }
+
     // public async Task<int> Save()
     // {
     //     return await _context.SaveChangesAsync();
     // }
+
+
 
 }  

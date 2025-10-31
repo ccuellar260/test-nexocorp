@@ -2,6 +2,7 @@ using System;
 using Farmacorp.PosExpress.Domain.Entities;
 using Farmacorp.PosExpress.Domain.Interfaces;
 using Farmacorp.PosExpress.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Farmacorp.PosExpress.Infrastructure.Repositories;
 
@@ -18,7 +19,9 @@ public class TipoProductoRepository : ITipoProductoRepository
 
     public IEnumerable<TipoProducto> GetAll()
     {
-        return _context.TiposProductos.ToList();
+        return _context.TiposProductos
+            .Include(tp => tp.ExpProductos)
+            .ToList();
     }
 
     public void Store(TipoProducto tipoProducto)

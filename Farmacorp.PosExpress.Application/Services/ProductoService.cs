@@ -30,7 +30,7 @@ namespace Farmacorp.PosExpress.Application.Services
                 }).ToList();
         }
 
-       
+
         public async Task<(bool Success, string ErrorMessage)> RegistrarProducto(CreateProductoDto dto)
         {
             try
@@ -45,10 +45,10 @@ namespace Farmacorp.PosExpress.Application.Services
                 if (string.IsNullOrWhiteSpace(dto.Nombre))
                     return (false, "El nombre del producto no puede estar vacoo.");
 
-                
+
                 var uniqueCodigo = _unitOfWork.ErpProductoRepository.GenerarCodigoUnico(dto.Nombre);
 
-               
+
                 var productosExistentes = _unitOfWork.ErpProductoRepository.GetAll();
                 if (productosExistentes.Any(p => p.UniqueCodigo == uniqueCodigo))
                     return (false, "Ya existe un producto con el mismo código único.");
@@ -86,18 +86,18 @@ namespace Farmacorp.PosExpress.Application.Services
 
                 //ya tengo el id del producto ERP generado
                 int idProductoErp = erpProducto.IdProducto;
-                    // Generar y guardar código de barra
+                // Generar y guardar código de barra
                 var codigoBarra = new CodigoBarra
-                    {
-                        UniqueCodigo = CodigoBarra.GenerarCodigo(),
-                        Activo = true,
-                        IdProducto = idProductoErp
-                    };
+                {
+                    UniqueCodigo = CodigoBarra.GenerarCodigo(),
+                    Activo = true,
+                    IdProducto = idProductoErp
+                };
 
                 _unitOfWork.CodigoBarraRepository.Store(codigoBarra);
 
                 int resultado = await _unitOfWork.SaveChangesAsync();
-               
+
 
                 await _unitOfWork.CommitTransactionAsync();
                 return (resultado > 0, resultado > 0 ? string.Empty : "Error al guardar los cambios en la base de datos.");
@@ -107,6 +107,31 @@ namespace Farmacorp.PosExpress.Application.Services
                 await _unitOfWork.RollbackTransactionAsync();
                 return (false, $"Error al registrar producto: {ex.Message}");
             }
+        }
+        
+
+        public  (bool Success, string ErrorMessage) ExistCodigoUnico(string codigoProducto)
+        {
+            try
+            {
+                var existe = _unitOfWork.ErpProductoRepository.VerificarCodigoUnico(codigoProducto);    
+
+                if (existe)
+                {
+                    return (true, string.Empty);
+                }
+                else
+                {
+                    return (false, "El codigo de producto no existe.");
+                }
+
+            }                           
+            catch (Exception ex)
+            {
+                return (false, $"Error al verificar el codigo de producto: {ex.Message}");
+            }
+
+
         }
     }
 }

@@ -12,12 +12,15 @@ namespace Farmacorp.PosExpress.Presentation.Controllers
         private readonly ProductoService _productoService;
         private readonly CategoriaService _categoriaServic;
         private readonly TipoProductoService _tipoProductoService;
+        private readonly VentaService _ventaService;
 
-        public MainController(ProductoService productoService, CategoriaService categoriaService, TipoProductoService tipoProductoService)
+
+        public MainController(ProductoService productoService, CategoriaService categoriaService, TipoProductoService tipoProductoService, VentaService ventaService)
         {
             _productoService = productoService;
             _categoriaServic = categoriaService;
             _tipoProductoService = tipoProductoService;
+            _ventaService = ventaService;
         }
 
         public async Task Run()
@@ -47,10 +50,8 @@ namespace Farmacorp.PosExpress.Presentation.Controllers
                         break;
                     case "4":
                         // Gestion de Ventas
-                        Console.WriteLine("Gestion de Ventas - En desarrollo...");
-                        Console.ReadKey();
-                        // var ventaController = new VentaController(_ventaService);
-                        // await ventaController.MenuVentas();
+                        var ventaController = new VentaController(_ventaService, _productoService);
+                        await ventaController.MenuVentas();
                         break;
                     case "5":
                         Console.WriteLine("Hasta luego");
